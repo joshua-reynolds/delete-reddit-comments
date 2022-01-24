@@ -56,60 +56,45 @@ def find_and_delete_comments():
             confirm_button.click()
             
             # tracking
-            print('I deleted a comment...')
+            #print('I deleted a comment...')
             comments_deleted = comments_deleted + 1
               
         #else:
             #print('Skipping non-user comment...')      
         
-    print(comments_deleted)
+    #print(comments_deleted)
     return comments_deleted
 
 
-# Wrapper for deleting comments
-def delete_comments_wrapper(mode=0, n=1):
-    
-    # mode 0 deletes one set of comments
-    if mode == 0:
-        print('mode is set to 0')
-        deleted = 0  
-        deleted =  deleted + find_and_delete_comments()
-        
-    # mode 1 deletes a specifed amount(n) of sets of comments                        
-    if mode == 1:
-        print('mode is set to 1')
-        deleted = 0
-        for i in range(0,n):
-            print('interation {}'.format(i))
+# deletes a specifed amount(n) of sets of comments
+def delete_comments_wrapper(iterations=1):
+         
+                        
+    deleted = 0
+    for i in range(0,iterations):
+        try:
+            print('Interation #{}'.format(i+1))
             deleted =  deleted + find_and_delete_comments()
             driver.refresh()
-
-        return deleted        
-    
-    # mode 2 keeps deleting sets of comments until failure                
-    if mode == 2:
-        print('mode is set to 2')
+            print('\n')
         
-        status = 0
-        deleted = 0
-        while status == 0:
-            try:
-                deleted =  deleted + find_and_delete_comments()
-                driver.refresh()
-                
-            except Exception as e: 
-                print(e)
-            else:
-                status = 1
-                print('\nAlert: No more comments or encountered an error')
-                
-        return deleted       
+        except Exception as e: 
+            print(e)
+            
+        else:    
+            print('\nAlert: Encountered an error. Trying again...')  
+                      
+
+    return deleted       
 
 #$$$$$$$$$$$$$$$$
 # MAIN
 #$$$$$$$$$$$$$$$$
 
 if __name__ == "__main__":
+    
+    # settings
+    iterations = 50
     
     # Open log file
     log = open('history.log', "a")
@@ -178,7 +163,7 @@ if __name__ == "__main__":
     #===================
     
     # get the total comments deleted
-    total_deleted = delete_comments_wrapper(0)  
+    total_deleted = delete_comments_wrapper(iterations)  
     
     # close browser window
     driver.close()
