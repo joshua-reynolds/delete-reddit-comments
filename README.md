@@ -1,7 +1,16 @@
 # delete-reddit-comments
-Uses Selenium and Chromedriver to login and delete user comments from Reddit
+Summary: This python script uses Selenium and Chromedriver to login and delete user comments from Reddit
+
+Reddit does not allow their users to delete all of their comments at once; they may only delete them one at a time. This tool uses chromedriver to speed up this process. 
 
 Requirements
 - python
 - libraries (selenium)
 - chromedriver.exe
+
+Instructions:
+1 - Install libraries
+2 - download compatible chromedriver.exe
+3 - type username (line 1) and password (line 2) into params.text (this could be more secure...)
+4 - adjust number of iterations (line 3) to run
+5 - run the script repeatedly until all comments are deleted

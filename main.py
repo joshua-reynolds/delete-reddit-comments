@@ -129,7 +129,7 @@ if __name__ == "__main__":
     driver = webdriver.Chrome(service=s, options=chrome_options)
     
     # get username and password from text file
-    f=open(r".\login.txt","r")
+    f=open(r".\params.txt","r")
     #f=open("login2.txt", "r")
     lines = f.readlines()
     username = lines[0]
