@@ -19,6 +19,8 @@ delete all those comments that you made throughout the years
 # delete comments function
 def find_and_delete_comments():
     
+    # need to click comments tab first, can possibly make one for posts as well
+    
     # track n comments deleted
     comments_deleted = 0
     
@@ -26,44 +28,45 @@ def find_and_delete_comments():
     comments = driver.find_elements(By.CLASS_NAME,'Comment')
     
     # loop thru gathered comments
-    for c in comments:
-        
-        # find the buttons of the comment
-        more_options = c.find_elements(By.TAG_NAME, 'button')
-        
-        # if the comment is interactable, otherwise its non-user
-        if len(more_options) > 0:
-
-            # click
-            more_options[-1].click()
+    if len(comments) > 0:
+        for c in comments:
             
-            # find the menu div
-            menu =  driver.find_element(By.CSS_SELECTOR, "._2uYY-KeuYHKiwl-9aF0UiL.ehsOqYO6dxn_Pf9Dzwu37")
-                    
-            # find the delete button
-            buttons = menu.find_elements(By.CSS_SELECTOR, "._10K5i7NW6qcm-UoCtpB3aK._3LwUIE7yX7CZQKmD2L87vf._2LNy1r5iuFMrf0PLh4UdV-._1oYEKCssGFjqxQ9jJMNj5G")
+            # find the buttons of the comment
+            more_options = c.find_elements(By.TAG_NAME, 'button')
             
-            # click, if the text of the button is 'delete'
-            for b in buttons:
-                name = b.text
-                if name == 'Delete':
-                    b.click()
-                #else:
-                    #print('found {} button'.format(name))
+            # if the comment is interactable, otherwise its non-user
+            if len(more_options) > 0:
+    
+                # click
+                more_options[-1].click()
                 
-             # find the confirm delete button and click  
-            confirm_button = driver.find_element(By.CSS_SELECTOR, '._17UyTSs2atqnKg9dIq5ERg.ogOEj4x-0BpDZWeccJwxx._2iuoyPiKHN3kfOoeIQalDT._10BQ7pjWbeYP63SAPNS8Ts.HNozj_dKjQZ59ZsfEegz8._2nelDm85zKKmuD94NequP0')
-            confirm_button.click()
+                # find the menu div
+                menu =  driver.find_element(By.CSS_SELECTOR, "._2uYY-KeuYHKiwl-9aF0UiL.ehsOqYO6dxn_Pf9Dzwu37")
+                        
+                # find the delete button
+                buttons = menu.find_elements(By.CSS_SELECTOR, "._10K5i7NW6qcm-UoCtpB3aK._3LwUIE7yX7CZQKmD2L87vf._2LNy1r5iuFMrf0PLh4UdV-._1oYEKCssGFjqxQ9jJMNj5G")
+                
+                # click, if the text of the button is 'delete'
+                for b in buttons:
+                    name = b.text
+                    if name == 'Delete':
+                        b.click()
+                    #else:
+                        #print('found {} button'.format(name))
+                    
+                 # find the confirm delete button and click  
+                confirm_button = driver.find_element(By.CSS_SELECTOR, '._17UyTSs2atqnKg9dIq5ERg.ogOEj4x-0BpDZWeccJwxx._2iuoyPiKHN3kfOoeIQalDT._10BQ7pjWbeYP63SAPNS8Ts.HNozj_dKjQZ59ZsfEegz8._2nelDm85zKKmuD94NequP0')
+                confirm_button.click()
+                
+                # tracking
+                #print('I deleted a comment...')
+                comments_deleted = comments_deleted + 1
+                  
+            #else:
+                #print('Skipping non-user comment...')      
             
-            # tracking
-            #print('I deleted a comment...')
-            comments_deleted = comments_deleted + 1
-              
-        #else:
-            #print('Skipping non-user comment...')      
-        
-    #print(comments_deleted)
-    return comments_deleted
+        #print(comments_deleted)
+        return comments_deleted
 
 
 # deletes a specifed amount(n) of sets of comments
@@ -94,7 +97,7 @@ def delete_comments_wrapper(iterations=1):
 if __name__ == "__main__":
     
     # settings
-    iterations = 50
+    iterations = 1
     
     # Open log file
     log = open('history.log', "a")
@@ -158,15 +161,22 @@ if __name__ == "__main__":
     login_button = driver.find_element(By.XPATH,'/html/body/div/main/div[1]/div/div[2]/form/fieldset[5]/button')
     login_button.click()    
     
+    # click the comments tab
+    comments_button = driver.find_element(By.XPATH,'/html/body/div[1]/div/div[2]/div[2]/div/div/div/div[2]/div[1]/div/div/div/a[3]')
+    comments_button.click()
+    
     #===================
     # Delete stuff
     #===================
     
+    # need to click 'top' tab for more comments
+    
+    
     # get the total comments deleted
     total_deleted = delete_comments_wrapper(iterations)  
     
-    # close browser window
-    driver.close()
+    #close browser window
+    #driver.close()
     
     #======================
     # Logging
